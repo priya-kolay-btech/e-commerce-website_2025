@@ -75,6 +75,11 @@ rzp.open()
 
   const onSubmitHandler = async (event) => {
     event.preventDefault()
+console.log("PLACE ORDER CLICKED");
+console.log("TOKEN:", token);
+console.log("METHOD:", method);
+console.log("BACKEND URL:", backendUrl);
+
     try {
 
       let orderItems = []
@@ -213,8 +218,8 @@ toast.error(error.message);
               <img className='h-5 mx-4' src={assets.stripe} alt="" />
             </div>
 
-            <div onClick={() => setMethod('Razorpay')} className='flex items-center gap-3 border p-2 px-3 cursor-pointer'>
-              <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'Razorpay' ? 'bg-green-400' : ''}`}></p>
+            <div onClick={() => setMethod('razorpay')} className='flex items-center gap-3 border p-2 px-3 cursor-pointer'>
+              <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'razorpay' ? 'bg-green-400' : ''}`}></p>
               <img className='h-10 mx-4' src={assets.Razorpay} alt="" />
             </div>
 

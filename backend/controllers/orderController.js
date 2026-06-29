@@ -261,7 +261,10 @@ const currency = "inr";
 const deliveryCharge = 10;
 
 // Stripe and Razorpay initialization
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+//const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = process.env.STRIPE_SECRET_KEY
+  ? new Stripe(process.env.STRIPE_SECRET_KEY)
+  : null;
 
 const razorpayInstance = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -295,7 +298,18 @@ const placeOrder = async (req, res) => {
 };
 
 // Stripe Order
+
+
 const placeOrderStripe = async (req, res) => {
+
+  if (!stripe) {
+  return res.json({
+    success: false,
+    message: "Stripe is not configured.",
+  });
+}
+
+
   try {
     const { userId, items, amount, address } = req.body;
     const { origin } = req.headers;
