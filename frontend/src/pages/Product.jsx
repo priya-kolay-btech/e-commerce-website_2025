@@ -8,11 +8,11 @@ import { ShopContext } from '../context/shopContext';
 import { assets } from '../assets/assets';
 import RelatedProducts from '../components/RelatedProducts';
 
-const baseImageUrl = 'http://localhost:5000/'; // Make sure this matches your backend
+//const baseImageUrl = 'http://localhost:5000/'; // Make sure this matches your backend
 
 const Product = () => {
   const { productId } = useParams();
-  const { products, currency, addToCart } = useContext(ShopContext);
+  const { products, currency, addToCart, backendUrl} = useContext(ShopContext);
   const [productData, setProductData] = useState(null);
   const [image, setImage] = useState('');
   const [size, setSize] = useState('');
@@ -22,9 +22,13 @@ const Product = () => {
     if (item) {
       setProductData(item);
       // Set the default main image (ensure path is correct)
+      // const defaultImage = item.image?.[0]
+      //   ? baseImageUrl + 'uploads/' + item.image[0]
+      //   : '';
+
       const defaultImage = item.image?.[0]
-        ? baseImageUrl + 'uploads/' + item.image[0]
-        : '';
+  ? `${backendUrl}/uploads/${item.image[0]}`
+  : '';
       setImage(defaultImage);
     }
   }, [products, productId]);
@@ -39,8 +43,11 @@ const Product = () => {
           <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full ">
             {(productData.image ?? []).map((item, index) => (
               <img
-                onClick={() => setImage(baseImageUrl + 'uploads/' + item)}
-                src={baseImageUrl + 'uploads/' + item}
+                // onClick={() => setImage(baseImageUrl + 'uploads/' + item)}
+                // src={baseImageUrl + 'uploads/' + item}
+
+                onClick={() => setImage(`${backendUrl}/uploads/${item}`)}
+src={`${backendUrl}/uploads/${item}`}
                 key={index}
                 className="w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer"
                 alt={`Thumbnail ${index + 1}`}
